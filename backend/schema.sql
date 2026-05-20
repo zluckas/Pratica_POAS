@@ -5,7 +5,7 @@ CREATE TYPE modalidade_aula AS ENUM ('Presencial', 'Remoto');
 
 CREATE TYPE status_atendimento AS ENUM ('Agendado', 'Concluido', 'Cancelado');
 
-CREATE TYPE status_solicitacao AS ENUM ('Pendente', 'Aprovada', 'Recusada', 'Cancelada');
+CREATE TYPE status_solicitacao AS ENUM ('Pendente', 'Aprovado', 'Recusado', 'Cancelado');
 
 -- TABELA DE disciplinas
 
@@ -56,7 +56,7 @@ CREATE TABLE horarios(
 	id SERIAL PRIMARY KEY,
 	horario_inicio TIMESTAMP NOT NULL,
 	horario_termino TIMESTAMP NOT NULL,
-	status_horario status_horario
+	status status_horario
 );
 
 CREATE TABLE salas(
@@ -74,7 +74,7 @@ CREATE TABLE atendimentos(
     id_solicitacao INT UNIQUE REFERENCES solicitacoes(id),
 	assunto VARCHAR(500),
     relatorio VARCHAR(500),
-    situacao status_atendimento,
+    status status_atendimento,
 	modalidade modalidade_aula
 );
 
@@ -83,44 +83,36 @@ CREATE TABLE solicitacoes(
     id_aluno INT REFERENCES alunos(id) NOT NULL,
     id_mediador INT REFERENCES mediador(id) NOT NULL,
     assunto VARCHAR(500),
-    status_atendimento status_atendimento
+    status status_solicitacao
 );
 
 
 ---------- TABELAS AUXILIARES ----------
 
-CREATE TABLE aluno_atendimento(
+CREATE TABLE aluno_atendimentos(
 	id_aluno INT REFERENCES alunos(id),
 	id_atendimento INT REFERENCES atendimentos(id)
 );
 
-CREATE TABLE usuario_notificacao(
+CREATE TABLE usuario_notificacoes(
 	id_usuario INT REFERENCES usuarios(id),
 	id_notificacao INT REFERENCES notificacoes(id)
 );
 
-CREATE TABLE professor_turma(
+CREATE TABLE professor_turmas(
 	id_professor INT REFERENCES professores(id),
 	id_turma INT REFERENCES turmas(id)
 );
 
-CREATE TABLE professor_disiplinas
-(
+CREATE TABLE professor_disciplinas(
 	id_professor INT REFERENCES professores(id),
 	id_disciplina INT REFERENCES disciplinas(id)
 );
 
-CREATE TABLE horario_sala(
+CREATE TABLE horario_salas(
 	id_horario INT REFERENCES horarios(id),
 	id_sala INT REFERENCES salas(id)
 );
-
-
-
-
-
-
-
 
 
 
