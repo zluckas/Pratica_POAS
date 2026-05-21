@@ -1,11 +1,13 @@
 -- TYPES
 CREATE TYPE status_horario AS ENUM ('Disponivel', 'Reservado');
 
-CREATE TYPE modalidade_aula AS ENUM ('Presencial', 'Remoto');
-
 CREATE TYPE status_atendimento AS ENUM ('Agendado', 'Concluido', 'Cancelado');
 
 CREATE TYPE status_solicitacao AS ENUM ('Pendente', 'Aprovado', 'Recusado', 'Cancelado');
+
+CREATE TYPE modalidade_aula AS ENUM ('Presencial', 'Remoto');
+
+CREATe TYPE tipo_atendimento AS ENUM ('TAL', 'TAI')
 
 -- TABELA DE disciplinas
 
@@ -40,7 +42,7 @@ CREATE TABLE mediador(
 CREATE TABLE alunos(
 	id INT PRIMARY KEY REFERENCES usuarios(id),
 	id_turma REFERENCES turmas(id),
-    necessidades_especiais BOOLEAN DEFAULT FALSE,
+    necessidades_especiais BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE notificacoes(
@@ -49,7 +51,7 @@ CREATE TABLE notificacoes(
 	mensagem VARCHAR(500) NOT NULL,
 	lida BOOLEAN DEFAULT FALSE,
 	criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	lido_em TIMESTAMP
+	lido_em TIMESTAMP 
 );
 
 CREATE TABLE horarios(
@@ -72,6 +74,7 @@ CREATE TABLE atendimentos(
     id_sala INT REFERENCES salas(id) NOT NULL,
 	id_disciplina INT REFERENCES disciplinas(id) NOT NULL,
     id_solicitacao INT UNIQUE REFERENCES solicitacoes(id),
+	tipo_atendimento tipo_atendimento
 	assunto VARCHAR(500),
     relatorio VARCHAR(500),
     status status_atendimento,
